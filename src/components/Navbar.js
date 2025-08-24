@@ -1,9 +1,16 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const pathname = usePathname(); // Get current page path
+
+  // Function to check if link is active
+  const isActive = (path) => {
+    return pathname === path;
+  };
 
   // Load saved theme on component mount
   useEffect(() => {
@@ -30,11 +37,36 @@ export default function Navbar() {
       <div className="container-fluid">
         {/* Navigation Links - Left Side */}
         <div className="navbar-nav me-auto">
-          <a className="nav-link active" aria-current="page" href="/">Tabs</a>
-          <a className="nav-link" href="/pre-lab">Pre-lab Questions</a>
-          <a className="nav-link" href="/escape-room">Escape Room</a>
-          <a className="nav-link" href="/coding-races">Coding Races</a>
-          <a className="nav-link" href="/about">About</a>
+          <a 
+            className={`nav-link ${isActive('/') ? 'active text-primary fw-bold' : ''}`}
+            href="/"
+          >
+            Tabs
+          </a>
+          <a 
+            className={`nav-link ${isActive('/pre-lab') ? 'active text-primary fw-bold' : ''}`}
+            href="/pre-lab"
+          >
+            Pre-lab Questions
+          </a>
+          <a 
+            className={`nav-link ${isActive('/escape-room') ? 'active text-primary fw-bold' : ''}`}
+            href="/escape-room"
+          >
+            Escape Room
+          </a>
+          <a 
+            className={`nav-link ${isActive('/coding-races') ? 'active text-primary fw-bold' : ''}`}
+            href="/coding-races"
+          >
+            Coding Races
+          </a>
+          <a 
+            className={`nav-link ${isActive('/about') ? 'active text-primary fw-bold' : ''}`}
+            href="/about"
+          >
+            About
+          </a>
         </div>
         
         {/* Right Side - Dark Mode Toggle + Hamburger */}

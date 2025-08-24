@@ -48,6 +48,24 @@ export default function Home() {
     localStorage.setItem('tabs', JSON.stringify(updatedTabs));
   };
 
+  const [displayedCode, setDisplayedCode] = useState('');
+
+  const code = `<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple HTML File</title>
+</head>
+<body>
+
+  <h1 style="color: blue; font-family: 'Arial', sans-serif;">Hello, World!</h1>
+
+</body>
+</html>`;
+
+  const generateCode = () => {
+    setDisplayedCode(code);
+  };
+
   return (
     <div className="container-fluid py-4">
       <div className="row">
@@ -83,7 +101,7 @@ export default function Home() {
               <div className="mb-3">
                 <h6>Current Tabs:</h6>
                 {tabs.length === 0 ? (
-                  <p className="text-muted">No tabs created yet. Add your first tab above!</p>
+                  <p className="">No tabs created yet. Add your first tab above!</p>
                 ) : (
                   <div className="list-group">
                     {tabs.map((tab) => (
@@ -108,19 +126,26 @@ export default function Home() {
         <div className="col-md-6">
           <div className="card">
             <div className="card-header">
-              <h4 className="mb-0">Output & Preview</h4>
+              <h4 className="mb-0">Output</h4>
             </div>
             <div className="card-body">
-              <p className="text-muted">This section will contain:</p>
-              <ul>
-                <li>HTML Output button</li>
-                <li>Generated code preview</li>
-                <li>Copy to clipboard functionality</li>
-              </ul>
-              <div className="alert alert-info">
-                <strong>Coming soon!</strong> HTML5 code generation will appear here.
-              </div>
-            </div>
+                 <button 
+                   className="btn btn-success"
+                   onClick={generateCode}
+                 >
+                   Generate Code 
+                 </button>
+               <p>HTML output with in-line css</p>
+               <textarea 
+                 className="form-control" 
+                 rows="10" 
+                 value={displayedCode}
+                 onChange={(e) => setDisplayedCode(e.target.value)}
+                 placeholder="Generated code will appear here..."
+               >
+               </textarea>
+               
+             </div>
           </div>
         </div>
       </div>

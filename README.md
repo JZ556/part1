@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LTU Moodle HTML Generator
 
-## Getting Started
+A Next.js web application that generates HTML5 code with inline CSS for Moodle LMS deployment.
 
-First, run the development server:
+## Project Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This project uses **Next.js** and **Bootstrap** to create a web application with:
+
+- **Header** - Project title and student information
+- **Navigation Bar** - Menu with dark/light mode toggle
+- **Body** - Main content area with tabs management
+- **Footer** - Copyright and student details
+
+## Main Features
+
+### Tabs Page
+
+- **Add/Remove Tabs** - Create and manage multiple tabs
+- **Generate HTML Code** - Output clean HTML with inline CSS
+- **Editable Code Area** - Modify generated code as needed
+- **Copy Functionality** - Easy copy/paste for Moodle deployment
+
+### Theme Support
+
+- **Dark Mode/Light Mode** - Toggle between themes
+- **Persistent Settings** - Theme and tabs saved in localStorage
+
+## Technology Stack
+
+- **Next.js** - React framework
+- **Bootstrap 5** - CSS framework for styling
+- **Font Awesome** - Icons
+- **localStorage** - Data persistence
+
+## How to Run
+
+1. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+2. **Start development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+3. **Open in browser:**
+   ```
+   http://localhost:3000
+   ```
+
+## Usage
+
+1. **Add Tabs** - Enter tab names and click "Add Tab"
+2. **Generate Code** - Click "Generate Code" button
+3. **Copy HTML** - Copy the generated code from the textarea
+4. **Deploy to Moodle** - Paste the HTML code into Moodle LMS
+
+## Student Information
+
+- **Student Name:** Shengzhe Zhou
+- **Student Number:** 22065684
+- **Course:** Web Development Assignment
+
+## File Structure
+
+```
+part1/
+├── src/
+│   ├── app/
+│   │   ├── layout.js          # Main layout with header/footer
+│   │   ├── page.js            # Homepage with tabs functionality
+│   │   ├── about/page.js      # About page
+│   │   └── globals.css        # Global styles including dark mode
+│   └── components/
+│       └── Navbar.js          # Navigation component
+├── public/                    # Static assets
+└── README.md                  # This file
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+_Generated HTML code is compatible with Moodle LMS and uses inline CSS only._
