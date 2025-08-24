@@ -2,11 +2,26 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
   const [tabs, setTabs] = useState([]);
   const [inputValue, setInputValue] = useState('');
+
+  // Load saved tabs on component mount
+  useEffect(() => {
+    const savedTabs = localStorage.getItem('tabs');
+    if (savedTabs) {
+      try {
+        const parsedTabs = JSON.parse(savedTabs);
+        setTabs(parsedTabs);
+      } catch (error) {
+        console.error('Error loading tabs from localStorage:', error);
+        // If there's an error, start with empty array
+        setTabs([]);
+      }
+    }
+  }, []);
 
   const addTab = () => {
     if (inputValue.trim()) {
@@ -15,13 +30,22 @@ export default function Home() {
         title: inputValue,
         content: `Content for ${inputValue}`
       };
-      setTabs([...tabs, newTab]);
+      const updatedTabs = [...tabs, newTab];
+      setTabs(updatedTabs);
+      
+      // Save to localStorage
+      localStorage.setItem('tabs', JSON.stringify(updatedTabs));
+      
       setInputValue(''); // Clear input
     }
   };
 
   const removeTab = (id) => {
-    setTabs(tabs.filter(tab => tab.id !== id));
+    const updatedTabs = tabs.filter(tab => tab.id !== id);
+    setTabs(updatedTabs);
+    
+    // Save to localStorage
+    localStorage.setItem('tabs', JSON.stringify(updatedTabs));
   };
 
   return (
@@ -43,7 +67,7 @@ export default function Home() {
                     placeholder="Enter tab name (e.g., Step 1)"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && addTab()}
+                    onKeyUp={(e) => e.key === 'Enter' && addTab()}
                   />
                   <button 
                     className="btn btn-success" 
