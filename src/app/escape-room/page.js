@@ -8,6 +8,10 @@ export default function EscapeRoom() {
     const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
     const [currentStage, setCurrentStage] = useState(1);
 
+    // User data
+    const [username, setUsername] = useState('');
+    const [gameResult, setGameResult] = useState(null); // 'pass' or 'fail'
+
     // Timer effect
     useEffect(() => {
         if (gameState === 'playing' && timeLeft > 0) {
@@ -17,8 +21,10 @@ export default function EscapeRoom() {
             return () => clearTimeout(timer);
         } else if (timeLeft === 0) {
             setGameState('lost');
+            setGameResult('fail'); // Set result to fail
+            console.log(`Game Result: ${username} - fail`);
         }
-    }, [gameState, timeLeft]);
+    }, [gameState, timeLeft, username]);
 
     // Format time as MM:SS
     const formatTime = (seconds) => {
@@ -29,9 +35,21 @@ export default function EscapeRoom() {
 
     // Start game function
     const startGame = () => {
+        if (!username.trim()) {
+            alert('Please enter your username!');
+            return;
+        }
         setGameState('playing');
         setTimeLeft(300);
         setCurrentStage(1);
+        setGameResult(null); // Reset result
+    };
+
+    // Complete game function (when all stages are done)
+    const completeGame = () => {
+        setGameState('won');
+        setGameResult('pass');
+        console.log(`Game Result: ${username} - pass`);
     };
 
     return (
@@ -57,6 +75,19 @@ export default function EscapeRoom() {
                     <div>
                         <h2 className="text-white mb-4">Escape Room Challenge</h2>
                         <p className="text-white mb-4">Complete 3 coding challenges to escape!</p>
+
+                        {/* Username Input */}
+                        <div className="mb-4">
+                            <input
+                                type="text"
+                                className="form-control form-control-lg text-center"
+                                placeholder="Enter your username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                style={{ maxWidth: '300px', margin: '0 auto' }}
+                            />
+                        </div>
+
                         <button
                             className="btn btn-success btn-lg"
                             onClick={startGame}
@@ -69,8 +100,17 @@ export default function EscapeRoom() {
                 {gameState === 'playing' && (
                     <div>
                         <h2 className="text-white mb-4">Stage {currentStage} of 3</h2>
-                        <p className="text-white">Challenge content will go here...</p>
-                        <button className="btn btn-primary">Submit Answer</button>
+                        <p className="text-white mb-3">Challenge content will go here...</p>
+                        <div className="mb-3">
+                            <button className="btn btn-primary me-2">Submit Answer</button>
+                        </div>
+                        {/* Temporary button for testing - remove later */}
+                        <button
+                            className="btn btn-warning btn-sm"
+                            onClick={completeGame}
+                        >
+                            🧪 Test: Complete All Stages
+                        </button>
                     </div>
                 )}
 
