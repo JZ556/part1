@@ -16,6 +16,10 @@ export default function EscapeRoom() {
     const [stage1Answer, setStage1Answer] = useState('');
     const [stage1Correct, setStage1Correct] = useState(false);
 
+    // Stage 2 - Debug Challenge
+    const [stage2Answer, setStage2Answer] = useState('');
+    const [stage2Correct, setStage2Correct] = useState(false);
+
     // Timer effect
     useEffect(() => {
         if (gameState === 'playing' && timeLeft > 0) {
@@ -72,6 +76,20 @@ export default function EscapeRoom() {
             setStage1Answer(''); // Clear answer
         } else {
             alert('Incorrect! Make sure your HTML includes: <!DOCTYPE html>, <html>, <head>, and <body>');
+        }
+    };
+
+    // Stage 2: Check calculation answer
+    const checkStage2Answer = () => {
+        const answer = stage2Answer.trim();
+        // Check if answer is 20 (4 * 5)
+        if (answer === '20') {
+            setStage2Correct(true);
+            alert('✅ Correct! Moving to Stage 3!');
+            setCurrentStage(3);
+            setStage2Answer(''); // Clear answer
+        } else {
+            alert('Incorrect! Calculate: 4 × 5 = ?');
         }
     };
 
@@ -156,8 +174,43 @@ export default function EscapeRoom() {
                             </div>
                         )}
 
-                        {/* Stage 2 & 3 - Coming Next */}
-                        {currentStage > 1 && (
+                        {/* Stage 2: Calculation Challenge */}
+                        {currentStage === 2 && (
+                            <div>
+                                <h4 className="text-white mb-3"> Calculation Challenge</h4>
+                                <p className="text-white mb-3">
+                                    Calculate the result of this function call:
+                                </p>
+
+                                <div className="bg-dark p-3 mb-3 rounded" style={{ maxWidth: '400px', margin: '0 auto' }}>
+                                    <p className="text-white mb-0 font-monospace">
+                                        calculateArea = (length, width) =&gt; length * width<br /><br />
+                                        console.log(calculateArea(4, 5))
+                                    </p>
+                                </div>
+
+                                <p className="text-white mb-3">What is the result? Enter the number:</p>
+
+                                <input
+                                    type="text"
+                                    className="form-control mb-3 text-center"
+                                    placeholder="Enter your answer..."
+                                    value={stage2Answer}
+                                    onChange={(e) => setStage2Answer(e.target.value)}
+                                    style={{ maxWidth: '200px', margin: '0 auto' }}
+                                />
+
+                                <button
+                                    className="btn btn-primary me-2"
+                                    onClick={checkStage2Answer}
+                                >
+                                    Submit Answer
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Stage 3 - Coming Next */}
+                        {currentStage > 2 && (
                             <div>
                                 <p className="text-white mb-3">Stage {currentStage} content coming next...</p>
                                 <button
