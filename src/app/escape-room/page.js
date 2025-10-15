@@ -20,6 +20,10 @@ export default function EscapeRoom() {
     const [stage2Answer, setStage2Answer] = useState('');
     const [stage2Correct, setStage2Correct] = useState(false);
 
+    // Stage 3 - Code Generation
+    const [stage3Answer, setStage3Answer] = useState('');
+    const [stage3Correct, setStage3Correct] = useState(false);
+
     // Timer effect
     useEffect(() => {
         if (gameState === 'playing' && timeLeft > 0) {
@@ -60,6 +64,20 @@ export default function EscapeRoom() {
         console.log(`Game Result: ${username} - pass`);
     };
 
+    // Reset game function
+    const resetGame = () => {
+        setGameState('waiting');
+        setTimeLeft(300);
+        setCurrentStage(1);
+        setGameResult(null);
+        setStage1Answer('');
+        setStage2Answer('');
+        setStage3Answer('');
+        setStage1Correct(false);
+        setStage2Correct(false);
+        setStage3Correct(false);
+    };
+
     // Stage 1: Check HTML formatting
     const checkStage1Answer = () => {
         const answer = stage1Answer.toLowerCase().trim();
@@ -90,6 +108,25 @@ export default function EscapeRoom() {
             setStage2Answer(''); // Clear answer
         } else {
             alert('Incorrect! Calculate: 4 × 5 = ?');
+        }
+    };
+
+    // Stage 3: Check code generation
+    const checkStage3Answer = () => {
+        const answer = stage3Answer.toLowerCase().trim();
+        // Check if answer contains required loop elements
+        const hasFor = answer.includes('for');
+        const hasVariable = answer.includes('let') || answer.includes('var');
+        const has1000 = answer.includes('1000');
+        const hasIncrement = answer.includes('++') || answer.includes('+=');
+
+        if (hasFor && hasVariable && has1000 && hasIncrement) {
+            setStage3Correct(true);
+            alert('✅ Correct! You escaped the room!');
+            completeGame(); // Complete the entire game
+            setStage3Answer(''); // Clear answer
+        } else {
+            alert('Incorrect! Write a for loop that generates numbers from 0 to 1000');
         }
     };
 
@@ -209,15 +246,37 @@ export default function EscapeRoom() {
                             </div>
                         )}
 
-                        {/* Stage 3 - Coming Next */}
-                        {currentStage > 2 && (
+                        {/* Stage 3: Code Generation Challenge */}
+                        {currentStage === 3 && (
                             <div>
-                                <p className="text-white mb-3">Stage {currentStage} content coming next...</p>
+                                <h4 className="text-white mb-3">💻 Code Generation Challenge</h4>
+                                <p className="text-white mb-3">
+                                    Write a JavaScript for loop that generates all numbers from 0 to 1000:
+                                </p>
+
+                                <div className="bg-dark p-3 mb-3 rounded" style={{ maxWidth: '400px', margin: '0 auto' }}>
+                                    <p className="text-white mb-0 font-monospace">
+                                        // Write your for loop here<br />
+                                        // Example: for (let i = 0; i &lt;= 1000; i++) { }
+                                    </p>
+                                </div>
+
+                                <p className="text-white mb-3">Write your code:</p>
+
+                                <textarea
+                                    className="form-control mb-3"
+                                    rows="6"
+                                    placeholder="Write your for loop here..."
+                                    value={stage3Answer}
+                                    onChange={(e) => setStage3Answer(e.target.value)}
+                                    style={{ maxWidth: '500px', margin: '0 auto' }}
+                                />
+
                                 <button
-                                    className="btn btn-warning btn-sm"
-                                    onClick={completeGame}
+                                    className="btn btn-primary me-2"
+                                    onClick={checkStage3Answer}
                                 >
-                                    🧪 Test: Complete All Stages
+                                    Submit Code
                                 </button>
                             </div>
                         )}
@@ -230,7 +289,7 @@ export default function EscapeRoom() {
                         <p className="text-white">Congratulations! You completed all challenges!</p>
                         <button
                             className="btn btn-success"
-                            onClick={() => setGameState('waiting')}
+                            onClick={resetGame}
                         >
                             Play Again
                         </button>
@@ -243,7 +302,7 @@ export default function EscapeRoom() {
                         <p className="text-white">You didn't escape in time. Try again!</p>
                         <button
                             className="btn btn-warning"
-                            onClick={() => setGameState('waiting')}
+                            onClick={resetGame}
                         >
                             Try Again
                         </button>
