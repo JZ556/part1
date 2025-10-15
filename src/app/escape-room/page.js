@@ -12,6 +12,10 @@ export default function EscapeRoom() {
     const [username, setUsername] = useState('');
     const [gameResult, setGameResult] = useState(null); // 'pass' or 'fail'
 
+    // Stage 1 - HTML Formatting
+    const [stage1Answer, setStage1Answer] = useState('');
+    const [stage1Correct, setStage1Correct] = useState(false);
+
     // Timer effect
     useEffect(() => {
         if (gameState === 'playing' && timeLeft > 0) {
@@ -50,6 +54,25 @@ export default function EscapeRoom() {
         setGameState('won');
         setGameResult('pass');
         console.log(`Game Result: ${username} - pass`);
+    };
+
+    // Stage 1: Check HTML formatting
+    const checkStage1Answer = () => {
+        const answer = stage1Answer.toLowerCase().trim();
+        // Check if answer contains required HTML elements (basic structure)
+        const hasDoctype = answer.includes('<!doctype html>');
+        const hasHtml = answer.includes('<html>');
+        const hasHead = answer.includes('<head>');
+        const hasBody = answer.includes('<body>');
+
+        if (hasDoctype && hasHtml && hasHead && hasBody) {
+            setStage1Correct(true);
+            alert('✅ Correct! Moving to Stage 2!');
+            setCurrentStage(2);
+            setStage1Answer(''); // Clear answer
+        } else {
+            alert('Incorrect! Make sure your HTML includes: <!DOCTYPE html>, <html>, <head>, and <body>');
+        }
     };
 
     return (
@@ -100,17 +123,51 @@ export default function EscapeRoom() {
                 {gameState === 'playing' && (
                     <div>
                         <h2 className="text-white mb-4">Stage {currentStage} of 3</h2>
-                        <p className="text-white mb-3">Challenge content will go here...</p>
-                        <div className="mb-3">
-                            <button className="btn btn-primary me-2">Submit Answer</button>
-                        </div>
-                        {/* Temporary button for testing - remove later */}
-                        <button
-                            className="btn btn-warning btn-sm"
-                            onClick={completeGame}
-                        >
-                            🧪 Test: Complete All Stages
-                        </button>
+
+                        {/* Stage 1: HTML Formatting Challenge */}
+                        {currentStage === 1 && (
+                            <div>
+                                <h4 className="text-white mb-3">🔧 Basic HTML Structure Challenge</h4>
+                                <p className="text-white mb-3">
+                                    Write the basic HTML document structure with these 4 essential elements:
+                                </p>
+                                <ul className="text-white mb-3">
+                                    <li>&lt;!DOCTYPE html&gt;</li>
+                                    <li>&lt;html&gt;</li>
+                                    <li>&lt;head&gt;</li>
+                                    <li>&lt;body&gt;</li>
+                                </ul>
+
+                                <textarea
+                                    className="form-control mb-3"
+                                    rows="8"
+                                    placeholder="Write your HTML code here..."
+                                    value={stage1Answer}
+                                    onChange={(e) => setStage1Answer(e.target.value)}
+                                    style={{ maxWidth: '500px', margin: '0 auto' }}
+                                />
+
+                                <button
+                                    className="btn btn-primary me-2"
+                                    onClick={checkStage1Answer}
+                                >
+                                    Submit Answer
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Stage 2 & 3 - Coming Next */}
+                        {currentStage > 1 && (
+                            <div>
+                                <p className="text-white mb-3">Stage {currentStage} content coming next...</p>
+                                <button
+                                    className="btn btn-warning btn-sm"
+                                    onClick={completeGame}
+                                >
+                                    🧪 Test: Complete All Stages
+                                </button>
+                            </div>
+                        )}
                     </div>
                 )}
 
