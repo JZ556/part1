@@ -78,6 +78,31 @@ export default function EscapeRoom() {
         setStage3Correct(false);
     };
 
+    // Save game result to database
+    const saveGameResult = async () => {
+        try {
+            const response = await fetch('/api/game-results', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    result: gameResult || 'fail', // Default to 'fail' if gameResult is null
+                }),
+            });
+
+            if (response.ok) {
+                alert(' Game result saved successfully!');
+            } else {
+                alert(' Failed to save game result');
+            }
+        } catch (error) {
+            console.error('Error saving game result:', error);
+            alert(' Error saving game result');
+        }
+    };
+
     // Stage 1: Check HTML formatting
     const checkStage1Answer = () => {
         const answer = stage1Answer.toLowerCase().trim();
@@ -89,7 +114,7 @@ export default function EscapeRoom() {
 
         if (hasDoctype && hasHtml && hasHead && hasBody) {
             setStage1Correct(true);
-            alert('✅ Correct! Moving to Stage 2!');
+            alert(' Correct! Moving to Stage 2!');
             setCurrentStage(2);
             setStage1Answer(''); // Clear answer
         } else {
@@ -103,7 +128,7 @@ export default function EscapeRoom() {
         // Check if answer is 20 (4 * 5)
         if (answer === '20') {
             setStage2Correct(true);
-            alert('✅ Correct! Moving to Stage 3!');
+            alert(' Correct! Moving to Stage 3!');
             setCurrentStage(3);
             setStage2Answer(''); // Clear answer
         } else {
@@ -122,7 +147,7 @@ export default function EscapeRoom() {
 
         if (hasFor && hasVariable && has1000 && hasIncrement) {
             setStage3Correct(true);
-            alert('✅ Correct! You escaped the room!');
+            alert(' Correct! You escaped the room!');
             completeGame(); // Complete the entire game
             setStage3Answer(''); // Clear answer
         } else {
@@ -287,12 +312,20 @@ export default function EscapeRoom() {
                     <div>
                         <h2 className="text-success">🎉 ESCAPED! 🎉</h2>
                         <p className="text-white">Congratulations! You completed all challenges!</p>
-                        <button
-                            className="btn btn-success"
-                            onClick={resetGame}
-                        >
-                            Play Again
-                        </button>
+                        <div className="d-flex gap-2 justify-content-center">
+                            <button
+                                className="btn btn-primary"
+                                onClick={saveGameResult}
+                            >
+                                 Save Result
+                            </button>
+                            <button
+                                className="btn btn-success"
+                                onClick={resetGame}
+                            >
+                                Play Again
+                            </button>
+                        </div>
                     </div>
                 )}
 
@@ -300,12 +333,20 @@ export default function EscapeRoom() {
                     <div>
                         <h2 className="text-danger">⏰ TIME'S UP! ⏰</h2>
                         <p className="text-white">You didn't escape in time. Try again!</p>
-                        <button
-                            className="btn btn-warning"
-                            onClick={resetGame}
-                        >
-                            Try Again
-                        </button>
+                        <div className="d-flex gap-2 justify-content-center">
+                            <button
+                                className="btn btn-primary"
+                                onClick={saveGameResult}
+                            >
+                                 Save Result
+                            </button>
+                            <button
+                                className="btn btn-warning"
+                                onClick={resetGame}
+                            >
+                                Try Again
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
