@@ -1,0 +1,19 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model GameResult {
+  id        String   @id @default(uuid())
+  username  String
+  result    String   // "pass" or "fail"
+  createdAt DateTime @default(now())
+}
