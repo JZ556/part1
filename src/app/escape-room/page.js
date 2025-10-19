@@ -281,8 +281,8 @@ export default function EscapeRoom() {
 
                                 <div className="bg-dark p-3 mb-3 rounded" style={{ maxWidth: '400px', margin: '0 auto' }}>
                                     <p className="text-white mb-0 font-monospace">
-                                        // Write your for loop here<br />
-                                        // Example: for (let i = 0; i &lt;= 1000; i++) { }
+                                        {/* Write your for loop here */}<br />
+                                        {/* Example: for (let i = 0; i <= 1000; i++) { } */}
                                     </p>
                                 </div>
 
@@ -317,7 +317,7 @@ export default function EscapeRoom() {
                                 className="btn btn-primary"
                                 onClick={saveGameResult}
                             >
-                                 Save Result
+                                Save Result
                             </button>
                             <button
                                 className="btn btn-success"
@@ -331,14 +331,14 @@ export default function EscapeRoom() {
 
                 {gameState === 'lost' && (
                     <div>
-                        <h2 className="text-danger">⏰ TIME'S UP! ⏰</h2>
-                        <p className="text-white">You didn't escape in time. Try again!</p>
+                        <h2 className="text-danger">⏰ TIME&apos;S UP! ⏰</h2>
+                        <p className="text-white">You didn&apos;t escape in time. Try again!</p>
                         <div className="d-flex gap-2 justify-content-center">
                             <button
                                 className="btn btn-primary"
                                 onClick={saveGameResult}
                             >
-                                 Save Result
+                                Save Result
                             </button>
                             <button
                                 className="btn btn-warning"
